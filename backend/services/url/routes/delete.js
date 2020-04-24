@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const verification = require('../jwt_ver');
+const verification = require('../../../jwt_ver');
 
-const Url = require('../models/Url');
+const Url = require('../../../models/Url');
 
 // DELETE Specific Url
 router.delete('/:id', async (req, res) => 

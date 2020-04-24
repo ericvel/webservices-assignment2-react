@@ -8,11 +8,9 @@ connectDB();
 
 app.use(express.json());
 
-// Define Routes
-app.use('/', require('./routes/get'));
-app.use('/', require('./routes/post'));
-app.use('/', require('./routes/delete'));
-app.use('/', require('./routes/put'));
+// Define Services as routes
+app.use('/url', require('./services/url/index'))
+app.use('/user', require('./services/user/index'))
 const PORT = 5000;
 
 app.listen(PORT, () => console.log('Server running on port ' + PORT));
