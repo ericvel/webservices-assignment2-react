@@ -77,7 +77,8 @@ function UrlShortener(props) {
                         data => {
                             console.log(data);
                             if (responseCode === 200) {
-                                output = `Keys: ${data}`;
+                                output = `Keys:\n${data}`;
+                                output = output.replace(/,/g, '\n');
                             } else if(responseCode === 403) {
                                 output = `Error: ${data}\nYou must be logged in to perform this action.`;
                             } else {
