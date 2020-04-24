@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, InputGroup, Input, InputGroupAddon, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, FormGroup, Label  } from 'reactstrap';
+import { Button, Input, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, FormGroup, Label  } from 'reactstrap';
 
 function UrlShortener(props) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -22,9 +22,11 @@ function UrlShortener(props) {
         case 'DELETE':
             inputPrompt = 'ID of URL (blank to delete all)'
             break;
+        default:
+            break;
     }
 
-    if (selectedMethod == 'PUT') {        
+    if (selectedMethod === 'PUT') {        
         updateInputType = "";
     } else {        
         updateInputType = "hidden";
@@ -37,7 +39,7 @@ function UrlShortener(props) {
 
         switch(selectedMethod) {
             case 'GET':
-                if (input != '') {
+                if (input !== '') {
                     fetch(`http://localhost:5000/url/${input}`, {
                         method: 'GET'
                     })
@@ -48,7 +50,7 @@ function UrlShortener(props) {
                     .then(
                         data => {
                             console.log(data);
-                            if (responseCode == 301) {
+                            if (responseCode === 301) {
                                 output = `URL: ${data}`;
                                 
                             } else {
@@ -74,9 +76,9 @@ function UrlShortener(props) {
                     .then(
                         data => {
                             console.log(data);
-                            if (responseCode == 200) {
+                            if (responseCode === 200) {
                                 output = `Keys: ${data}`;
-                            } else if(responseCode == 403) {
+                            } else if(responseCode === 403) {
                                 output = `Error: ${data}\nYou must be logged in to perform this action.`;
                             } else {
                                 output = `Error: ${data}`;
@@ -105,9 +107,9 @@ function UrlShortener(props) {
                 .then(
                     data => {
                         console.log(data);
-                        if (responseCode == 201) {
+                        if (responseCode === 201) {
                             output = `Short URL created with ID: ${data.urlCode}`;
-                        } else if (responseCode == 403) {
+                        } else if (responseCode === 403) {
                             output = `Error: ${data}\nYou must be logged in to perform this action.`;
                         } else {
                             output = `Error: ${data}`;
@@ -136,9 +138,9 @@ function UrlShortener(props) {
                 .then(
                     data => {
                         console.log(data);
-                        if (responseCode == 200) {
+                        if (responseCode === 200) {
                             output = `URL with ID ${data.urlCode} has been updated to:\n${data.longUrl}`;
-                        } else if (responseCode == 403) {
+                        } else if (responseCode === 403) {
                             output = `Error: ${data}\nYou must be logged in to perform this action.`;
                         } else {
                             output = `Error: ${data}`;
@@ -149,7 +151,7 @@ function UrlShortener(props) {
                 );
                 break;
             case 'DELETE':
-                if (input != '') {
+                if (input !== '') {
                     fetch(`http://localhost:5000/url/${input}`, {
                         method: 'DELETE',
                         headers: {
@@ -164,9 +166,9 @@ function UrlShortener(props) {
                     .then(
                         data => {
                             console.log(data);
-                            if (responseCode == 204) {
+                            if (responseCode === 204) {
                                 output = `Succesfully deleted URL with ID: ${input}`;
-                            } else if (responseCode == 403) {
+                            } else if (responseCode === 403) {
                                 output = `Error: ${data}\nYou must be logged in to perform this action.`;
                             } else {
                                 output = `Error: ${data}`;
@@ -191,9 +193,9 @@ function UrlShortener(props) {
                     .then(
                         data => {
                             console.log(data);
-                            if (responseCode == 204) {
+                            if (responseCode === 204) {
                                 output = `Succesfully deleted all URLs`;
-                            } else if (responseCode == 403) {
+                            } else if (responseCode === 403) {
                                 output = `Error: ${data}\nYou must be logged in to perform this action.`;
                             } else {
                                 output = `Error: ${data}`;
@@ -203,6 +205,8 @@ function UrlShortener(props) {
                         }
                     );
                 }
+                break;
+            default:
                 break;
         }
     }

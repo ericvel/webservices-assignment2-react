@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, InputGroup, InputGroupAddon, InputGroupText, Input, ButtonToolbar } from 'reactstrap';
+import { Button, InputGroup, Input } from 'reactstrap';
 
 function Login(props) {
 
@@ -24,7 +24,7 @@ function Login(props) {
     .then(
         data => {
             console.log(data);
-            if (responseCode == 200) {
+            if (responseCode === 200) {
                 props.setJwt(data);
                 document.getElementById('loginOutput').innerHTML = `Login succesful: ${username}`;
                 document.getElementById('loginUsername').value = "";

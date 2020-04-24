@@ -1,11 +1,16 @@
 import React from 'react';
-import { Button, InputGroup, InputGroupAddon, InputGroupText, Input, ButtonToolbar } from 'reactstrap';
+import { Button, InputGroup, Input } from 'reactstrap';
 
 function CreateUser() {
 
     const sendRequest = () => {
         let username = document.getElementById('createUsername').value;        
         let password = document.getElementById('createPassword').value;
+        if (username === '' || password === '') {
+            document.getElementById('createUserOutput').innerHTML = `Error: you must fill in both fields.`;
+            return;
+        }
+
         let responseCode;
         fetch('http://localhost:5000/user', {
             method: 'POST',
@@ -24,7 +29,7 @@ function CreateUser() {
         .then(
             data => {
                 console.log(data);
-                if (responseCode == 200) {
+                if (responseCode === 200) {
                     document.getElementById('createUserOutput').innerHTML = `User has been created: ${data}`;
                     document.getElementById('createUsername').value = "";
                     document.getElementById('createPassword').value = "";

@@ -10,7 +10,7 @@ Verification: function (header_value)
     const loginToken = config.token;
     // Get JWT from request header
     
-    if (loginToken == header_value) 
+    if (loginToken == header_value && header_value !== '') 
     {
         //res.status(200);
         //res.send('access granted');
