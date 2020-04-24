@@ -24,5 +24,19 @@ router.get('/:id', async (req, res) =>
   }//catch
 });//GET request Original Url
 
+//Request all Urls  
+router.get('/', async (res) =>
+{
+  try
+  {
+    const url = await Url.find();
+    return res.status(200).json(url);
+  }//try
+  catch (err) 
+  {
+    console.error(err);
+    res.status(500).json('Server error');
+  }//catch
+});//GET request All Urls
 
 module.exports = router;
