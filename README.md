@@ -1,4 +1,4 @@
-# Assignment 2 - RESTful microservices architectures
+# Assignment 2 - Group 22
 
 ## Setup
 ### Install dependencies
@@ -34,13 +34,13 @@ Enter a user's username and password to get access to the URL shortener service.
 Use the dropdown to select the type of action you want to perform: **GET**, **POST**, **PUT** or **DELETE**.  
 
 - GET
-  - Enter the ID of an URL to retrieve the full URL
+  - Enter the ID of a URL to retrieve the full URL
   - Leave the input field blank to retrieve the IDs of all stored URLs
 - POST
-  - Enter an URL to shorten. The URL must be properly formatted  (e.g. http://*www.example.com*)
+  - Enter a URL to shorten. The URL must be properly formatted  (e.g. http://*www.example.com*)
 - PUT
-  - Enter the ID of an URL to update
+  - Enter the ID of a URL to update
   - Enter the new URL that you want to associate with the ID
 - DELETE
-  - Enter the ID of an URL to delete
+  - Enter the ID of a URL to delete
   - Leave the input field blank to delete all stored URLs 
