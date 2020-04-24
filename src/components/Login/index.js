@@ -8,9 +8,14 @@ function Login(props) {
     let password = document.getElementById('loginPassword').value;
     let responseCode;
     fetch('http://localhost:5000/user/login', {
-        method: 'POST',
-        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: `username=${username}&password=${password}`
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json; charset=utf-8'
+      },
+      body: `{
+          "username":"${username}",
+          "password":"${password}"
+      }`
     })
     .then(function (response) {
         responseCode = response.status;

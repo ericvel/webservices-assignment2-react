@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Url = require('../../../models/Url');
+global.ver = require('../../../config');
+const verification = require('../../../jwt_ver');
 
 //Request Sepcific Original Url
 router.get('/:id', async (req, res) =>
@@ -24,19 +26,31 @@ router.get('/:id', async (req, res) =>
   }//catch
 });//GET request Original Url
 
-//Request all Urls  
-router.get('/', async (res) =>
-{
-  try
-  {
-    const url = await Url.find();
-    return res.status(200).json(url);
-  }//try
-  catch (err) 
-  {
-    console.error(err);
-    res.status(500).json('Server error');
-  }//catch
+//Request all URL ids  
+router.get('/', async (req, res) =>
+{  
+  const header_value = req.header('X-Access-Token');
+  
+  if (verification.Verification(header_value)) {
+    try
+    {
+      const url = await Url.find();
+      let idList = [];
+      url.forEach((item) => {
+        idList.push(item.urlCode);
+      });
+      return res.status(200).json(idList);
+    }//try
+    catch (err) 
+    {
+      console.error(err);
+      res.status(500).json('Server error');
+    }//catch
+  }
+  else {
+    res.status(403).json('Forbidden');
+  }
+  
 });//GET request All Urls
 
 module.exports = router;

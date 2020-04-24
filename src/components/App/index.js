@@ -12,13 +12,13 @@ function App() {
   return (
     <div className="container-lg">
       <div className="row mt-5">
-        <div className="col d-flex justify-content-center border-right">
+        <div className="col-4 d-flex justify-content-center border-right">
           <CreateUser />
         </div>
-        <div className="col d-flex justify-content-center border-right">
+        <div className="col-4 d-flex justify-content-center border-right">
           <Login setJwt={setJwt}/>
         </div>
-        <div className="col d-flex justify-content-center">
+        <div className="col-4 d-flex justify-content-center">
           <UrlShortener jwt={jwt} />
         </div>
       </div>

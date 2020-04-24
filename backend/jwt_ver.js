@@ -14,14 +14,14 @@ Verification: function (header_value)
     {
         //res.status(200);
         //res.send('access granted');
-        console.log('Access Granted');
+        // console.log('Access Granted');
         return true;
     }//if
     else
     {
        //res.status(403);
       //res.send('forbidden');
-      console.log('Access Denied');
+      //console.log('Access Denied');
       return false;
     }//else
 }

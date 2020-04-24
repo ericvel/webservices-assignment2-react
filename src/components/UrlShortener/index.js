@@ -38,7 +38,7 @@ function UrlShortener(props) {
         switch(selectedMethod) {
             case 'GET':
                 if (input != '') {
-                    fetch(`http://localhost:5000/?id=${input}`, {
+                    fetch(`http://localhost:5000/url/${input}`, {
                         method: 'GET'
                     })
                     .then(function (response) {
@@ -50,18 +50,21 @@ function UrlShortener(props) {
                             console.log(data);
                             if (responseCode == 301) {
                                 output = `URL: ${data}`;
+                                
                             } else {
                                 output = `Error: ${data}`;
                             }
+
+                            document.getElementById('urlOutput').value = output;
                         }
                     );
                 } else {
                     // Gets all shortened URL ids
-                    fetch('http://localhost:5000/', {
+                    fetch('http://localhost:5000/url/', {
                         method: 'GET',
                         headers: {
-                            'Content-Type':'application/x-www-form-urlencoded',
-                            'X-Access-Token':props.jwt
+                            'Content-Type':'application/json; charset=utf-8',
+                            'X-Access-Token': props.jwt
                         }
                     })
                     .then(function (response) {
@@ -78,18 +81,22 @@ function UrlShortener(props) {
                             } else {
                                 output = `Error: ${data}`;
                             }
+                            
+                            document.getElementById('urlOutput').value = output;
                         }
                     );
                 }
                 break;
             case 'POST':
-                fetch('http://localhost:5000/', {
+                fetch('http://localhost:5000/url', {
                     method: 'POST',
                     headers: {
-                        'Content-Type':'application/x-www-form-urlencoded',
-                        'X-Access-Token':props.jwt
+                        'Content-Type':'application/json; charset=utf-8',
+                        'X-Access-Token': props.jwt
                     },
-                    body: input
+                    body: `{
+                        "longUrl":"${input}"
+                    }` 
                 })
                 .then(function (response) {
                     responseCode = response.status;
@@ -99,24 +106,28 @@ function UrlShortener(props) {
                     data => {
                         console.log(data);
                         if (responseCode == 201) {
-                            output = `Short URL created with ID: ${data}`;
+                            output = `Short URL created with ID: ${data.urlCode}`;
                         } else if (responseCode == 403) {
                             output = `Error: ${data}\nYou must be logged in to perform this action.`;
                         } else {
                             output = `Error: ${data}`;
                         }
+                        
+                        document.getElementById('urlOutput').value = output;
                     }
                 );
                 break;
             case 'PUT':
                 let updatedUrl = document.getElementById('updateInput').value;
-                fetch(`http://localhost:5000/?id=${input}`, {
+                fetch(`http://localhost:5000/url/${input}`, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type':'application/x-www-form-urlencoded',
-                        'X-Access-Token':props.jwt
+                        'Content-Type':'application/json; charset=utf-8',
+                        'X-Access-Token': props.jwt
                     },
-                    body: updatedUrl
+                    body: `{
+                        "longUrl":"${updatedUrl}"
+                    }`
                 })
                 .then(function (response) {
                     responseCode = response.status;
@@ -126,52 +137,56 @@ function UrlShortener(props) {
                     data => {
                         console.log(data);
                         if (responseCode == 200) {
-                            output = `URL with ID ${data.id} has been updated to:\n${data.longUrl}`;
+                            output = `URL with ID ${data.urlCode} has been updated to:\n${data.longUrl}`;
                         } else if (responseCode == 403) {
                             output = `Error: ${data}\nYou must be logged in to perform this action.`;
                         } else {
                             output = `Error: ${data}`;
                         }
+                        
+                        document.getElementById('urlOutput').value = output;
                     }
                 );
                 break;
             case 'DELETE':
                 if (input != '') {
-                    fetch(`http://localhost:5000/?id=${input}`, {
+                    fetch(`http://localhost:5000/url/${input}`, {
                         method: 'DELETE',
                         headers: {
-                            'Content-Type':'application/x-www-form-urlencoded',
-                            'X-Access-Token':props.jwt
+                            'Content-Type':'application/json; charset=utf-8',
+                            'X-Access-Token': props.jwt
                         }
                     })
                     .then(function (response) {
                         responseCode = response.status;
-                        return response.json();
+                        return response.text();
                     })
                     .then(
                         data => {
                             console.log(data);
                             if (responseCode == 204) {
-                                output = `Succesfully deleted URL with ID: ${data.id}`;
+                                output = `Succesfully deleted URL with ID: ${input}`;
                             } else if (responseCode == 403) {
                                 output = `Error: ${data}\nYou must be logged in to perform this action.`;
                             } else {
                                 output = `Error: ${data}`;
                             }
+                            
+                            document.getElementById('urlOutput').value = output;
                         }
                     );
                 } else {
                     // Delete all URLs
-                    fetch(`http://localhost:5000/`, {
+                    fetch(`http://localhost:5000/url`, {
                         method: 'DELETE',
                         headers: {
-                            'Content-Type':'application/x-www-form-urlencoded',
-                            'X-Access-Token':props.jwt
+                            'Content-Type':'application/json; charset=utf-8',
+                            'X-Access-Token': props.jwt
                         }
                     })
                     .then(function (response) {
                         responseCode = response.status;
-                        return response.json();
+                        return response.text();
                     })
                     .then(
                         data => {
@@ -183,12 +198,13 @@ function UrlShortener(props) {
                             } else {
                                 output = `Error: ${data}`;
                             }
+                            
+                            document.getElementById('urlOutput').value = output;
                         }
                     );
                 }
                 break;
         }
-        document.getElementById('urlOutput').value = output;
     }
 
     return (
@@ -208,15 +224,14 @@ function UrlShortener(props) {
                 </DropdownMenu>
             </Dropdown>
             <br/>
-            <Label>Enter URL to shorten/ID to retrieve</Label>
-              
+            <Label>Enter value</Label>
             <Input id="urlInput" placeholder={inputPrompt} className="mb-2" />           
             <Input id="updateInput" placeholder="New URL" type={updateInputType} className="mb-2" />
             <Button onClick={() =>sendRequest()} color="primary" className="mb-3">Send request</Button>
             <br/>
             <FormGroup>
                 <Label for="urlOutput">Output</Label>
-                <Input type="textarea" name="text" id="urlOutput" rows="3" readOnly value={""}></Input>
+                <Input type="textarea" name="text" id="urlOutput" rows="5" readOnly value={""}></Input>
             </FormGroup>
         </div>
         

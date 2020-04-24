@@ -12,7 +12,9 @@ router.post('/', (req, res) =>
     const user = req.body;
 
     users.push(user);
-    res.status(200).json('User has been created ' + user.username);
+    res.status(200).send(user.username);
+    console.log(user);
+    console.log("User created: " + user.username);
 });//POST request Create User
 
 // Login
@@ -35,7 +37,7 @@ router.post('/login', (req, res) =>
       // Generate a Json Web Token and store in global var
       ver.token = jwt.sign(user.username, 'shhhhh');
       res.status(200).send(ver.token);
-      console.log(`Succesful login for user: ${user.username}`);
+      console.log("Login succesful: " + user.username);
     }//if
     else
     {

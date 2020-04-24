@@ -5,14 +5,14 @@ const verification = require('../../../jwt_ver');
 const Url = require('../../../models/Url');
 
 // Original url update
-router.put('/:code', async (req, res) =>
+router.put('/:id', async (req, res) =>
  {
   const header_value = req.header('X-Access-Token');
   if (verification.Verification(header_value))
   {
     try
     {
-      const url = await Url.findOne({ urlCode: req.params.code });
+      const url = await Url.findOne({ urlCode: req.params.id });
       if (url) 
       {
           url.longUrl = req.body.longUrl;

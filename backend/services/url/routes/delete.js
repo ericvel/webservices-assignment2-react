@@ -17,22 +17,22 @@ router.delete('/:id', async (req, res) =>
       if (url) 
       {
         url.remove();
-        return res.status(204).json('Url Removed');
+        return res.status(204).send('Url Removed');
       } //if
       else 
       {
-        return res.status(404).json('No url found');
+        return res.status(404).send('No url found');
       }//else
     }//try
     catch (err) 
     {
       console.error(err);
-      res.status(500).json('Server error');
+      res.status(500).send('Server error');
     }//catch
   }//if
   else
   {
-    res.status(403).json('Forbidden');
+    res.status(403).send('Forbidden');
   }//else
 });//DELETE request specific Url
 
@@ -47,17 +47,17 @@ router.delete('/', async (req, res) =>
   try
   {
     await Url.collection.drop();
-    return res.status(204).json('Collection cleared');
+    return res.status(204).send('Collection cleared');
   }//try 
   catch (err) 
   {
     console.error(err);
-    res.status(500).json('Server error');
+    res.status(500).send('Server error');
   }//catch
   }//if
   else
   {
-    res.status(403).json('Forbidden');
+    res.status(403).send('Forbidden');
   }//else
 });//DELETE request whole collection
 

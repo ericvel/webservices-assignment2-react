@@ -9,8 +9,13 @@ function CreateUser() {
         let responseCode;
         fetch('http://localhost:5000/user', {
             method: 'POST',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body: `username=${username}&password=${password}`
+            headers: {
+                'Content-Type':'application/json; charset=utf-8'
+            },
+            body: `{
+                "username":"${username}",
+                "password":"${password}"
+            }`
         })
         .then(function (response) {
             responseCode = response.status;
@@ -20,7 +25,7 @@ function CreateUser() {
             data => {
                 console.log(data);
                 if (responseCode == 200) {
-                    document.getElementById('createUserOutput').innerHTML = `User has been created: ${username}`;
+                    document.getElementById('createUserOutput').innerHTML = `User has been created: ${data}`;
                     document.getElementById('createUsername').value = "";
                     document.getElementById('createPassword').value = "";
                 } else {

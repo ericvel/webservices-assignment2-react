@@ -4,7 +4,6 @@ const validUrl = require('valid-url');
 const shortid = require('shortid');
 const config = require('config');
 global.ver = require('../../../config');
-const jwt = require('jsonwebtoken');
 const verification = require('../../../jwt_ver');
 
 const Url = require('../../../models/Url');
@@ -46,7 +45,7 @@ router.post('/', async (req, res) =>
           });
 
           await url.save();
-          res.json(url);
+          res.status(201).json(url);
         }//else
       }//try 
       catch (err)
@@ -57,7 +56,7 @@ router.post('/', async (req, res) =>
     }//if
     else
     {
-      res.status(403).json('Invalid long url');
+      res.status(400).json('Invalid long url (remember to include http://)');
     }//else
   }//if
   else
