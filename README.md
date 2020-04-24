@@ -44,3 +44,5 @@ Use the dropdown to select the type of action you want to perform: **GET**, **PO
 - DELETE
   - Enter the ID of a URL to delete
   - Leave the input field blank to delete all stored URLs 
+
+![screenshot](screenshots/screenshot1.PNG)
